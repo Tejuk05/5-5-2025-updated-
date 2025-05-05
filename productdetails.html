@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% if product %}
+    <h1>{{ product.name }}</h1>
+    <img src="{{ product.image }}" alt="{{ product.name }}" width="200">
+    <p>Price: ${{ product.price }}</p>
+    <p>{{ product.description }}</p>
+    <p>Quantity Available: {{ product.quantity }}</p>
+    <a href="{{ url_for('product_list') }}">Back to Product List</a> <!- Assuming you have a route named 'product_list'
+        -->
+        {% else %}
+        <p>Loading product details...</p> <!- This might briefly show before a redirect if JavaScript is involved -->
+            <script>
+                // JavaScript to redirect to the product list after a short delay
+                setTimeout(function () {
+                    window.location.href = "{{ url_for('product_list') }}"; // Assuming you have a route named 'product_list'
+                }, 100); // Adjust the delay as needed
+            </script>
+            {% endif %}
+</body>
+
+</html>
